@@ -34,15 +34,20 @@ jobs:
           sfdx-auth-url: ${{ secrets.AUTH_CREATIVE }}
 
       # commands using the runners shell
-      - name: 'Instal delta sfdx plugin'
-        run: |
-          sfdx --version
-          sudo npm install sfdx-cli --global
-          sfdx --version
-          echo "y" | sfdx plugins:install sfdx-git-delta
+      - name: Install Salesforce CLI
+        run: npm install sfdx-cli --global
 
-      - name: 'Produce delta packages'
+      - name: Populate auth file with SFDX_URL secret
+        run: echo ${{ secrets.AUTH_CREATIVE }} > SFDX_AUTH_FILE
+
+      - name: Authenticate
+        run: sfdx force:auth:sfdxurl:store -f SFDX_AUTH_FILE
+      
+      - name: Instal delta sfdx plugin
+        run: echo "y" | sfdx plugins:install sfdx-git-delta
+
+      - name: Produce delta packages
         run: sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
 
-      - name: 'Run Test on Metadata'
+      - name: Run Test on Metadata
         run: sfdx force:source:deploy -x package/package.xml --testlevel=RunLocalTests --checkonly
