@@ -37,7 +37,7 @@ jobs:
         run: echo ${{ secrets.AUTH_CREATIVE }} > SFDX_AUTH_FILE
 
       - name: Authenticate
-        run: sfdx force:auth:sfdxurl:store -f SFDX_AUTH_FILE
+        run: sfdx force:auth:sfdxurl:store -f SFDX_AUTH_FILE -s
       
       - name: Instal delta sfdx plugin
         run: echo "y" | sfdx plugins:install sfdx-git-delta
