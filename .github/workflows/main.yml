@@ -45,9 +45,8 @@ jobs:
       - name: Produce delta packages
         run: |
           git log --pretty=format:"%h - %an, %ar : %s"
-          git --no-pager diff --name-status HEAD HEAD^
           git fetch --all
-          git --no-pager diff --name-status HEAD HEAD^
+          git log --pretty=format:"%h - %an, %ar : %s"
           sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
           echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
