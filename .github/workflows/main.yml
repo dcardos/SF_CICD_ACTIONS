@@ -44,10 +44,16 @@ jobs:
 
       - name: Produce delta packages
         run: |
-          ls
+          git log --pretty=format:"%h - %an, %ar : %s"
+          git --no-pager diff --name-status HEAD HEAD^
+          git fetch --all
+          git --no-pager diff --name-status HEAD HEAD^
           sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
-          ls
+          echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
+          echo
+          echo "--- destructiveChanges.xml generated with deleted metadata ---"
+          cat destructiveChanges/destructiveChanges.xmlgit
 
       - name: Run Test on Metadata
         run: sfdx force:source:deploy -x package/package.xml --testlevel=RunLocalTests --checkonly
