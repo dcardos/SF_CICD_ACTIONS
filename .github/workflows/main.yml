@@ -34,7 +34,7 @@ jobs:
 
       # commands using the runners shell
       - name: 'Instal delta sfdx plugin'
-        run: echo "y" | sfdx plugins:install sfdx-git-delta
+        run: sfdx plugins:install sfdx-git-delta
       - name: 'Produce delta packages'
         run: sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
       - name: 'Run Test on Metadata'
