@@ -43,7 +43,11 @@ jobs:
         run: echo "y" | sfdx plugins:install sfdx-git-delta
 
       - name: Produce delta packages
-        run: sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
+        run: |
+          ls
+          sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
+          ls
+          cat package/package.xml
 
       - name: Run Test on Metadata
         run: sfdx force:source:deploy -x package/package.xml --testlevel=RunLocalTests --checkonly
