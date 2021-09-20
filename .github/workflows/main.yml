@@ -7,8 +7,12 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
+    paths:
+      - 'force-app/**'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'force-app/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,7 +33,9 @@ jobs:
           sfdx-auth-url: ${{ secrets.AUTH_CREATIVE }}
 
       # commands using the runners shell
-      - name: 'Convert Metadata'
-        run: sfdx force:source:convert --rootdir=force-app --outputdir=convert
+      - name: 'Instal delta sfdx plugin'
+        run: echo "y" | sfdx plugins:install sfdx-git-delta
+      - name: 'Produce delta packages'
+        run: sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
       - name: 'Run Test on Metadata'
-        run: sfdx force:mdapi:deploy --deploydir=convert --testlevel=RunLocalTests --checkonly -w30
+        run: sfdx force:source:deploy -x package/package.xml --testlevel=RunLocalTests --checkonly
