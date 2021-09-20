@@ -28,6 +28,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
 
       # commands using the runners shell
       - name: Install Salesforce CLI
@@ -44,12 +46,6 @@ jobs:
 
       - name: Produce delta packages
         run: |
-          git log --pretty=format:"%h - %an, %ar : %s"
-          echo
-          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' 
-          git fetch --all
-          git log --pretty=format:"%h - %an, %ar : %s"
-          echo
           sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
           echo "--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
