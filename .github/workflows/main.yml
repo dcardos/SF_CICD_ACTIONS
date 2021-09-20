@@ -49,7 +49,7 @@ jobs:
           sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
           printf "\n--- package.xml generated with added and modified metadata ---"
           cat package/package.xml
-          printf "\n--- destructiveChanges.xml generated with deleted metadata ---"
+          printf "\n\n--- destructiveChanges.xml generated with deleted metadata ---"
           cat destructiveChanges/destructiveChanges.xml
 
       - name: Run Test on Metadata
