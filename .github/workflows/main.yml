@@ -28,6 +28,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '>=14'
+          check-latest: true
+
       - uses: sfdx-actions/setup-sfdx@v1
         with:
           sfdx-auth-url: ${{ secrets.AUTH_CREATIVE }}
@@ -40,6 +46,6 @@ jobs:
 
       - name: 'Produce delta packages'
         run: sfdx sgd:source:delta --to HEAD --from HEAD^ --output .
-        
+
       - name: 'Run Test on Metadata'
         run: sfdx force:source:deploy -x package/package.xml --testlevel=RunLocalTests --checkonly
