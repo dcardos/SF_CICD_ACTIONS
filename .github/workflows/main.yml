@@ -29,10 +29,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - uses: sfdx-actions/setup-sfdx@v1
-        with:
-          sfdx-auth-url: ${{ secrets.AUTH_CREATIVE }}
-
       # commands using the runners shell
       - name: Install Salesforce CLI
         run: npm install sfdx-cli --global
