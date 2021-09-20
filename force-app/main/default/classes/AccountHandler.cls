@@ -1,5 +1,5 @@
 public with sharing class AccountHandler {
-    // comment in this class 4
+    // comment in this class 5
     public static Account accountWithName(String name) {
         return [SELECT Name, Phone FROM Account WHERE Name = :name LIMIT 1];
     }
